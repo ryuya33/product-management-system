@@ -1,0 +1,11 @@
+# Eclipse の設定ファイル（Git に不要）
+.settings/
+.classpath
+.project
+
+# ビルドフォルダ（コンパイル後のファイル）
+build/
+
+# 一時ファイル
+*.log
+*.tmp
