@@ -26,24 +26,25 @@
 	</script>
 </head>
 <body>
+	<div class="header">
+		<p class="welcome-message">ようこそ、${sessionScope.user} さん</p>
+		<a href="LogoutServlet" class="logout-link">ログアウト</a>	
+	</div>
 	<h1>商品一覧</h1>
 	
-	<p>ようこそ、${sessionScope.user} さん</p> <!-- ユーザー名を表示 -->
-	<a href="LogoutServlet">ログアウト</a> <!-- ログアウトリンク -->
-	
 	<!-- 検索フォーム -->
-    <form action="product" method="get">
+    <form class="form-container" action="product" method="get">
         <input type="text" name="query" placeholder="商品名を入力" value="${param.query}">
         <button type="submit">検索</button>
         
         <!-- ソート機能 -->
     	<select name="sort" onchange="this.form.submit()">
-        <option value="">並び替え</option>
-        <option value="price_asc" ${param.sort == 'price_asc' ? 'selected' : ''}>価格が安い順</option>
-        <option value="price_desc" ${param.sort == 'price_desc' ? 'selected' : ''}>価格が高い順</option>
-        <option value="name_asc" ${param.sort == 'name_asc' ? 'selected' : ''}>名前順（A→Z）</option>
-        <option value="name_desc" ${param.sort == 'name_desc' ? 'selected' : ''}>名前順（Z→A）</option>
-    </select>
+	        <option value="">並び替え</option>
+	        <option value="price_asc" ${param.sort == 'price_asc' ? 'selected' : ''}>価格が安い順</option>
+	        <option value="price_desc" ${param.sort == 'price_desc' ? 'selected' : ''}>価格が高い順</option>
+	        <option value="name_asc" ${param.sort == 'name_asc' ? 'selected' : ''}>名前順（A→Z）</option>
+	        <option value="name_desc" ${param.sort == 'name_desc' ? 'selected' : ''}>名前順（Z→A）</option>
+    	</select>
     </form>
 	
 	<c:choose>

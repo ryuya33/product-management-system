@@ -6,20 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>ログイン</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<h1>ログイン</h1>
-    <form action="LoginServlet" method="post">
-        <label>ユーザー名：</label>
-        <input type="text" name="username" required>
-        <label>パスワード：</label>
-        <input type="password" name="password" required>
-        <button type="submit">ログイン</button>
-    </form>
-    
-    <!-- ログインエラーメッセージ -->
-    <c:if test="${not empty errorMessage}">
-        <p class="error-message">${errorMessage}</p>
-    </c:if>
+	<div class="login-container">
+		<h1>ログイン</h1>
+	    <form action="LoginServlet" method="post">
+	        <label>ユーザー名</label>
+	        <input type="text" name="username" required>
+	        <label>パスワード</label>
+	        <input type="password" name="password" required>
+	        <button type="submit">ログイン</button>
+	    </form>
+	    <!-- ログインエラーメッセージ -->
+	    <c:if test="${not empty errorMessage}">
+	        <p class="error-message">${errorMessage}</p>
+	    </c:if>	    	
+	</div>
 </body>
 </html>

@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>商品情報入力フォーム</h1>
-	<form action="product" method="post" enctype="multipart/form-data">
+	<form class="form-container" action="product" method="post" enctype="multipart/form-data">
 		<div id="error-messages"></div> <!-- エラーメッセージ表示エリア -->
 		
 		<label for="name">商品名:</label>
