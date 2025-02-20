@@ -18,6 +18,7 @@
 	        <input type="password" name="password" required>
 	        <button type="submit">ログイン</button>
 	    </form>
+	    <p><a href="register.jsp">新規登録はこちら</a></p>
 	    <!-- ログインエラーメッセージ -->
 	    <c:if test="${not empty errorMessage}">
 	        <p class="error-message">${errorMessage}</p>

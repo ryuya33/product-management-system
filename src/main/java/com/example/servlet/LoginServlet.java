@@ -30,7 +30,14 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user.getUsername());
-            response.sendRedirect("product");
+            session.setAttribute("role", user.getRole());
+            
+            // 管理者ならadminDashboard.jspへ、それ以外はproductへ
+            if ("admin".equals(user.getRole())) {
+            	response.sendRedirect("adminDashboard.jsp");
+            } else {
+            	response.sendRedirect("product");            	
+            }
         } else {
         	request.setAttribute("errorMessage", "ユーザー名またはパスワードが違います。");
         	request.getRequestDispatcher("login.jsp").forward(request, response);

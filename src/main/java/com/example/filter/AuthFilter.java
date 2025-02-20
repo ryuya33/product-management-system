@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter({"/productList.jsp", "/productForm.jsp", "/editProduct.jsp", "/ProductServlet"})
+@WebFilter({"/productList.jsp", "/productForm.jsp", "/editProduct.jsp", "/product", "/adminDashboard.jsp"})
 public class AuthFilter implements Filter {
 
     public AuthFilter() {
@@ -26,12 +26,21 @@ public class AuthFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
         
+        String role = (session != null) ? (String) session.getAttribute("role") : null;
+        String requestURI = httpRequest.getRequestURI();
+        
         // ユーザーが未ログインならログインページへリダイレクト
         if (session == null || session.getAttribute("user") == null) {
             httpResponse.sendRedirect("login.jsp");
             return;
         }
 
+        // 一般ユーザーが管理者ページにアクセスするのを防ぐ
+        if (requestURI.contains("adminDashboard.jsp") && !"admin".equals(role)) {
+            httpResponse.sendRedirect("product");
+            return;
+        }
+        
         // 次のフィルターまたはサーブレットへ処理を渡す
         chain.doFilter(request, response);
 	}
