@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -108,11 +109,18 @@ public class ProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8"); 
 		
-		// 削除処理
+		HttpSession session = request.getSession(false);
+	        String role = (session != null) ? (String) session.getAttribute("role") : null;
+		
+		// 削除処理（管理者のみ許可）
 		String idToDelete = request.getParameter("deleteId");
 		if (idToDelete != null) {
-			int id = Integer.parseInt(idToDelete); 
-			productService.removeProductById(id);	
+			if ("admin".equals(role)) {
+				int id = Integer.parseInt(idToDelete); 
+				productService.removeProductById(id);					
+			} else {
+				request.setAttribute("errorMessage", "削除するには管理者権限が必要です。");
+			}
 		}
 		
 		// 検索 & 並び替え処理

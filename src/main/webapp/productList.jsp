@@ -32,6 +32,13 @@
 	</div>
 	<h1>商品一覧</h1>
 	
+	<!-- エラーメッセージ表示 -->
+	<div class="productList-container">
+		<c:if test="${not empty errorMessage}">
+		    <p class="error-message">削除するには管理者権限が必要です。</p>
+		</c:if>	
+	</div>
+	
 	<!-- 検索フォーム -->
     <form class="form-container" action="product" method="get">
         <input type="text" name="query" placeholder="商品名を入力" value="${param.query}">
@@ -47,11 +54,13 @@
     	</select>
     </form>
 	
-	<c:choose>
-	    <c:when test="${empty products}">
-	        <p>商品がありません。</p>
-	    </c:when>
-	<c:otherwise>
+	<div class="productList-container">
+		<c:choose>
+		    <c:when test="${empty products}">
+		        <p>商品がありません。</p>
+		    </c:when>
+		<c:otherwise>	
+	</div>
 	
 			<!-- 商品表示テーブル -->
 	    	<table>
@@ -61,30 +70,31 @@
 	    				<th>価格</th>
 	    				<th>カテゴリ</th>
 	    				<th>在庫数</th>
-	    				<th>説明</th>
 	    				<th>画像</th>
 	    				<th>操作</th>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
-					<!-- JSPタグで商品リストを表示 -->
+					<!-- 商品リストを表示 -->
 					<c:forEach var="product" items="${products}">
 						<tr>
 							<td>${product.name}</td>
 							<td>${product.price} 円</td>
 							<td>${product.category}</td>
 							<td>${product.stock}</td>
-							<td>${product.description}</td>
 							<td>
 								<c:if test="${not empty product.image}">
 									<img src="uploads/${product.image}" alt="${product.name}">
 								</c:if>
 							</td>
 							<td>
-								<!-- 編集リンク -->
-								<a href="editProduct?id=${product.id}" class="btn">編集</a>
-								<!-- 削除リンク -->
-								<a href="product?deleteId=${product.id}" class="btn btn-danger" onclick="return confirmDelete();">削除</a>
+								<a href="productDetail?id=${product.id}" class="btn">詳細</a>
+								<c:if test="${sessionScope.role == 'admin'}">
+									<!-- 編集リンク（管理者のみ表示）-->
+									<a href="editProduct?id=${product.id}" class="btn">編集</a>
+									<!-- 削除リンク（管理者のみ表示）-->
+									<a href="product?deleteId=${product.id}" class="btn btn-danger" onclick="return confirmDelete();">削除</a>
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>

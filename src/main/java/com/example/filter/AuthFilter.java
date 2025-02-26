@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter({"/productList.jsp", "/productForm.jsp", "/editProduct.jsp", "/product", "/adminDashboard.jsp"})
+@WebFilter({"/productList.jsp", "/productForm.jsp", "/productDetail.jsp", "/editProduct.jsp", "/product", "/adminDashboard.jsp"})
 public class AuthFilter implements Filter {
 
     public AuthFilter() {
@@ -36,7 +36,8 @@ public class AuthFilter implements Filter {
         }
 
         // 一般ユーザーが管理者ページにアクセスするのを防ぐ
-        if (requestURI.contains("adminDashboard.jsp") && !"admin".equals(role)) {
+        if ((requestURI.contains("adminDashboard.jsp") || requestURI.contains("editProduct.jsp") || requestURI.contains("delete"))
+                && !"admin".equals(role)) {
             httpResponse.sendRedirect("product");
             return;
         }

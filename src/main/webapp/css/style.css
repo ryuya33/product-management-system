@@ -53,7 +53,7 @@ body {
     background-color: #45a049;
 }
 
-/* 商品一覧画面のスタイル */
+/* ヘッダーのスタイル */
 .header {
     display: flex;
     justify-content: space-between;
@@ -85,6 +85,11 @@ h1 {
 	text-align: center;
 	color: #333;
 	margin: 8px 0 0;
+}
+
+/* 商品一覧画面のレイアウト */
+.productList-container {
+	margin: 4px auto;
 }
 
 /* フォーム全体のレイアウト */
@@ -171,6 +176,33 @@ a {
 img {
 	max-width: 100px;
 	height: auto;
+}
+
+/* productDetail.jspのレイアウト */
+/* 商品情報のレイアウト */
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 商品詳細のテキスト */
+.product-text {
+    flex: 1;
+}
+
+.product-text p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* 商品画像 */
+.product-image img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 .btn {
