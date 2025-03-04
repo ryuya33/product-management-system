@@ -1,17 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <!-- JSTLタグライブラリの宣言 -->
-<%@ page import="javax.servlet.http.HttpSession" %>
-
-<%
-    // ユーザーのセッションを取得
-    HttpSession userSession = request.getSession(false);
-    if (userSession == null || userSession.getAttribute("user") == null) {
-        // 未ログインならログインページへリダイレクト
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
 
 <!DOCTYPE html>
 <html>
@@ -59,73 +48,76 @@
 		    <c:when test="${empty products}">
 		        <p>商品がありません。</p>
 		    </c:when>
-		<c:otherwise>	
+			<c:otherwise>	
+	
+				<!-- 商品表示テーブル -->
+		    	<table>
+		    		<thead>
+		    			<tr>
+		    				<th>商品名</th>
+		    				<th>価格</th>
+		    				<th>カテゴリ</th>
+		    				<th>在庫数</th>
+		    				<th>画像</th>
+		    				<th>操作</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody>
+						<!-- 商品リストを表示 -->
+						<c:forEach var="product" items="${products}">
+							<tr>
+								<td>${product.name}</td>
+								<td>${product.price} 円</td>
+								<td>${product.category}</td>
+								<td>${product.stock}</td>
+								<td>
+									<c:if test="${not empty product.image}">
+										<img src="uploads/${product.image}" alt="${product.name}">
+									</c:if>
+								</td>
+								<td>
+									<a href="productDetail?id=${product.id}" class="btn">詳細</a>
+									<c:if test="${sessionScope.role == 'admin'}">
+										<!-- 編集リンク（管理者のみ表示）-->
+										<a href="editProduct?id=${product.id}" class="btn">編集</a>
+										<!-- 削除リンク（管理者のみ表示）-->
+										<a href="product?deleteId=${product.id}" class="btn btn-danger" onclick="return confirmDelete();">削除</a>
+									</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+		    		</tbody>
+		    	</table>
+		    	
+		    	<!-- ページネーション -->
+	            <div class="pagination">
+				    <c:if test="${currentPage > 1}">
+				    	<a href="product?page=1&query=${param.query}&sort=${param.sort}">最初</a>
+				        <a href="product?page=${currentPage - 1}&query=${param.query}&sort=${sort}">前へ</a>
+				    </c:if>
+				
+				    <c:forEach begin="1" end="${totalPages}" var="i">
+				        <c:choose>
+				            <c:when test="${i == currentPage}">
+				                <span><strong>${i}</strong></span> <!-- 現在のページは強調 -->
+				            </c:when>
+				            <c:otherwise>
+				                <a href="product?page=${i}&query=${param.query}&sort=${sort}">${i}</a>
+				            </c:otherwise>
+				        </c:choose>
+				    </c:forEach>
+				
+				    <c:if test="${currentPage < totalPages}">
+				        <a href="product?page=${currentPage + 1}&query=${param.query}&sort=${sort}">次へ</a>
+				        <a href="product?page=${totalPages}&query=${param.query}&sort=${param.sort}">最後</a>
+				    </c:if>
+				</div>
+	    	</c:otherwise>
+		</c:choose>
+		
 	</div>
 	
-			<!-- 商品表示テーブル -->
-	    	<table>
-	    		<thead>
-	    			<tr>
-	    				<th>商品名</th>
-	    				<th>価格</th>
-	    				<th>カテゴリ</th>
-	    				<th>在庫数</th>
-	    				<th>画像</th>
-	    				<th>操作</th>
-	    			</tr>
-	    		</thead>
-	    		<tbody>
-					<!-- 商品リストを表示 -->
-					<c:forEach var="product" items="${products}">
-						<tr>
-							<td>${product.name}</td>
-							<td>${product.price} 円</td>
-							<td>${product.category}</td>
-							<td>${product.stock}</td>
-							<td>
-								<c:if test="${not empty product.image}">
-									<img src="uploads/${product.image}" alt="${product.name}">
-								</c:if>
-							</td>
-							<td>
-								<a href="productDetail?id=${product.id}" class="btn">詳細</a>
-								<c:if test="${sessionScope.role == 'admin'}">
-									<!-- 編集リンク（管理者のみ表示）-->
-									<a href="editProduct?id=${product.id}" class="btn">編集</a>
-									<!-- 削除リンク（管理者のみ表示）-->
-									<a href="product?deleteId=${product.id}" class="btn btn-danger" onclick="return confirmDelete();">削除</a>
-								</c:if>
-							</td>
-						</tr>
-					</c:forEach>
-	    		</tbody>
-	    	</table>
-	    	
-	    	<!-- ページネーション -->
-            <div class="pagination">
-			    <c:if test="${currentPage > 1}">
-			    	<a href="product?page=1&query=${param.query}&sort=${param.sort}">最初</a>
-			        <a href="product?page=${currentPage - 1}&query=${param.query}&sort=${sort}">前へ</a>
-			    </c:if>
-			
-			    <c:forEach begin="1" end="${totalPages}" var="i">
-			        <c:choose>
-			            <c:when test="${i == currentPage}">
-			                <span><strong>${i}</strong></span> <!-- 現在のページは強調 -->
-			            </c:when>
-			            <c:otherwise>
-			                <a href="product?page=${i}&query=${param.query}&sort=${sort}">${i}</a>
-			            </c:otherwise>
-			        </c:choose>
-			    </c:forEach>
-			
-			    <c:if test="${currentPage < totalPages}">
-			        <a href="product?page=${currentPage + 1}&query=${param.query}&sort=${sort}">次へ</a>
-			        <a href="product?page=${totalPages}&query=${param.query}&sort=${param.sort}">最後</a>
-			    </c:if>
-			</div>
-	    </c:otherwise>
-	</c:choose>
+	<!-- 商品追加ボタン -->
 	<div class="add-product-container">
 		<a href="productForm.jsp" class="btn">商品を追加する</a>
 	</div>

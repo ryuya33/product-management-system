@@ -1,11 +1,18 @@
 @charset "UTF-8";
 
-/* 全体のスタイル */
+/* 共通のスタイル */
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f9f9f9;
 	margin: 0;
 	padding: 0;
+}
+
+/* 見出し */
+h1 {
+	text-align: center;
+	color: #333;
+	margin: 8px 0 0;
 }
 
 /* ログイン画面のスタイル */
@@ -78,13 +85,6 @@ body {
 .logout-link:hover {
     background-color: #4CAF50;
     color: white;
-}
-
-/* 見出し */
-h1 {
-	text-align: center;
-	color: #333;
-	margin: 8px 0 0;
 }
 
 /* 商品一覧画面のレイアウト */
@@ -178,21 +178,31 @@ img {
 	height: auto;
 }
 
-/* productDetail.jspのレイアウト */
+/* 商品詳細ページのレイアウト */
+.product-detail-container {
+    width: 60%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* 商品情報のレイアウト */
 .product-info {
     display: flex;
+    padding: 20px;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    gap: 30px;
 }
 
 /* 商品詳細のテキスト */
 .product-text {
-    flex: 1;
+    text-align: left; 
 }
 
 .product-text p {
-    font-size: 16px;
     margin: 10px 0;
     color: #333;
 }
@@ -201,8 +211,23 @@ img {
 .product-image img {
     max-width: 150px;
     height: auto;
+}
+
+/* 「商品一覧へ戻る」ボタン */
+.back-button {
+    display: block;
+    margin: 20px auto; 
+    padding: 10px 15px;
+    color: white;
+    background-color: #4CAF50;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+    width: 160px;
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #45a049;
 }
 
 .btn {
@@ -267,5 +292,15 @@ img {
 
     label, input[type="text"], input[type="number"], textarea, input[type="file"], .btn {
         font-size: 14px;
+    }
+    
+	/* 商品詳細ページのレイアウト*/
+    .product-detail-container {
+        width: 90%;
+    }
+
+	/* 商品情報のレイアウト */
+    .product-info {
+        flex-direction: column;
     }
 }

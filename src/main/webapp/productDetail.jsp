@@ -3,16 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <!-- JSTLタグライブラリの宣言 -->
 <%@ page import="javax.servlet.http.HttpSession" %>
 
-<%
-    // ユーザーのセッションを取得
-    HttpSession userSession = request.getSession(false);
-    if (userSession == null || userSession.getAttribute("user") == null) {
-        // 未ログインならログインページへリダイレクト
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,26 +11,28 @@
 	<link rel="stylesheet" href="css/style.css"> 
 </head>
 <body>
-	<h1>商品詳細</h1>
-	
-	<div class="product-info">
-    	<!-- 商品画像 -->
-		<div class="product-image">
-			<c:if test="${not empty product.image}">
-				<img src="uploads/${product.image}" alt="${product.name}">
-			</c:if>
+	<div class="product-detail-container">
+		<h1>商品詳細</h1>
+		
+		<div class="product-info">
+	    	<!-- 商品画像 -->
+			<div class="product-image">
+				<c:if test="${not empty product.image}">
+					<img src="uploads/${product.image}" alt="${product.name}">
+				</c:if>
+			</div>
+		
+			<!-- 商品情報 -->
+	        <div class="product-text">
+				<p>商品名: ${product.name}</p>
+				<p>価格: ${product.price} 円</p>
+				<p>カテゴリ: ${product.category}</p>
+				<p>在庫数: ${product.stock}</p>
+				<p>説明: ${product.description}</p>
+			</div>
 		</div>
-	
-		<!-- 商品情報 -->
-        <div class="product-text">
-			<p>商品名: ${product.name}</p>
-			<p>価格: ${product.price} 円</p>
-			<p>カテゴリ: ${product.category}</p>
-			<p>在庫数: ${product.stock}</p>
-			<p>説明: ${product.description}</p>
-		</div>
+		
+		<a href="product" class="back-button">商品一覧へ戻る</a>
 	</div>
-	
-	<a href="product">商品一覧へ戻る</a>
 </body>
 </html>
